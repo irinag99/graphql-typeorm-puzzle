@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 import { createCategoryInput } from "../inputs/createInput";
 import { updateCategoryInput } from "../inputs/updateInput";
 import { Category } from "../entity/Category";
@@ -6,12 +6,19 @@ import { Category } from "../entity/Category";
 @Resolver()
 export class CategoryResolver {
   @Query(() => [Category])
-  async categories() {
+  async categories(@Ctx() ctx: { email: any },) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     return await Category.find();
   }
 
   @Query(() => Category)
-  oneCategory(@Arg("name") name: string) {
+  oneCategory(@Ctx() ctx: { email: any },
+    @Arg("name") name: string) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     return Category.findOne({
       where: {
         name
@@ -20,7 +27,11 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteCategory(@Arg("id") id: string) {
+  async deleteCategory(@Ctx() ctx: { email: any },
+    @Arg("id") id: string) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     const category = await Category.findOne({ where: { id } });
     if (!category) throw new Error("Category not found!");
     await category.remove();
@@ -30,7 +41,11 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category)
-  async createCategory(@Arg("data") data: createCategoryInput) {
+  async createCategory(@Ctx() ctx: { email: any },
+    @Arg("data") data: createCategoryInput) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     const category = Category.create(data);
     await category.save();
 
@@ -39,7 +54,12 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category)
-  async updateCategory(@Arg("id") id: string, @Arg("data") data: updateCategoryInput) {
+  async updateCategory(@Ctx() ctx: { email: any },
+    @Arg("id") id: string,
+    @Arg("data") data: updateCategoryInput) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     const category = await Category.findOne({ where: { id } });
     if (!category) throw new Error("Category not found");
     Object.assign(category, data);

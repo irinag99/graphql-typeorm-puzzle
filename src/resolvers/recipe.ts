@@ -1,18 +1,18 @@
 import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 
 import { Recipe } from "../entity/Recipe";
-import { createMyRecipeInput } from "../inputs/createInput";
+import { createRecipeInput } from "../inputs/createInput";
 
 @Resolver()
 export class RecipeResolver {
   @Query(() => [Recipe])
-   async recipes(
-    @Ctx() ctx: {email: any},
+  async recipes(
+    @Ctx() ctx: { email: any },
     @Arg("name", { nullable: true }) name?: string,
     @Arg("ingredients", { nullable: true }) ingredients?: string,
-    @Arg("idCategory", { nullable: true }) idCategory?: number
+    @Arg("categoryId", { nullable: true }) categoryId?: number
   ) {
-    if(!ctx.email) {
+    if (!ctx.email) {
       throw new Error('No user authenticated');
     }
     let recipes: Recipe[] = await Recipe.find();
@@ -24,8 +24,8 @@ export class RecipeResolver {
       recipes = recipes.filter(recipe => recipe.ingredients.includes(ingredients));
     }
 
-    if (idCategory) {
-      recipes = recipes.filter(recipe => recipe.idCategory === idCategory);
+    if (categoryId) {
+      recipes = recipes.filter(recipe => recipe.categoryId === categoryId);
     }
 
     return recipes
@@ -33,7 +33,11 @@ export class RecipeResolver {
   }
 
   @Query(() => Recipe)
-  oneRecipe(@Arg("name") name: string) {
+  oneRecipe(@Ctx() ctx: { email: any },
+    @Arg("name") name: string) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     return Recipe.findOne({
       where: {
         name
@@ -43,7 +47,11 @@ export class RecipeResolver {
   }
 
   @Mutation(() => Boolean)
-  async deleteRecipe(@Arg("id") id: string) {
+  async deleteRecipe(@Ctx() ctx: { email: any },
+    @Arg("id") id: string) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     const recipe = await Recipe.findOne({ where: { id } });
     if (!recipe) throw new Error("Recipe not found!");
     await recipe.remove();
@@ -52,10 +60,30 @@ export class RecipeResolver {
   }
 
   @Mutation(() => Recipe)
-  async createMyRecipe(@Arg("data") data: createMyRecipeInput) {
+  async createRecipe(@Ctx() ctx: { email: any },
+    @Arg("data") data: createRecipeInput) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
     const recipe = Recipe.create(data);
     await recipe.save();
 
     return recipe;
+  }
+
+  @Query(() => [Recipe])
+   async myRecipes(@Ctx() ctx: { email: any },
+    @Arg("userId") userId: number) {
+    if (!ctx.email) {
+      throw new Error('No user authenticated');
+    }
+    const recipes = await Recipe.find({
+      where: {
+        userId
+      }
+    })
+    console.log(recipes);
+    if (!recipes) throw new Error("No recipes for this user");
+    return recipes;
   }
 };

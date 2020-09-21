@@ -40,7 +40,7 @@ export class UserResolver {
       return 'incorrect password';
     }
 
-    const accessToken = sign({ email: input.email }, "secretKey", { expiresIn: "15 min" });
+    const accessToken = sign({ email: input.email }, process.env.SECRET_KEY || 'secretKey', { expiresIn: "15 min" });
 
     return accessToken;
   }

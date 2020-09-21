@@ -28,11 +28,11 @@ export class Recipe extends BaseEntity  {
 
     @Field(() => String)
     @Column()
-    idUser: number;
+    userId: number;
 
     @Field(() => String)
     @Column()
-    idCategory: number;
+    categoryId: number;
 
     @Field(() => String)
     @Column()

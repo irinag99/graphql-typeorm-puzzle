@@ -4,6 +4,7 @@ import { ApolloServer } from "apollo-server-express";
 import express from 'express'
 import cors from "cors"
 import { buildSchema } from 'type-graphql';
+import * as dotenv from "dotenv";
 
 import { UserResolver } from "./resolvers/user"
 import { RecipeResolver } from "./resolvers/recipe";
@@ -12,6 +13,7 @@ import { verifyUser } from '../src/helper/context/index';
 
 
 const startServer = async () => {
+  dotenv.config({ path: "../.env" });
   await createConnection();
   const schema = await buildSchema({
     resolvers: [UserResolver, RecipeResolver, CategoryResolver]
@@ -33,7 +35,7 @@ const startServer = async () => {
 
   server.applyMiddleware({ app, path: '/graphql' });
 
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT || 4050;
 
   app.listen(PORT, () => {
     console.log(`server listening on PORT: ${PORT}`)

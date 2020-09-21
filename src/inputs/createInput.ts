@@ -7,7 +7,7 @@ export class createCategoryInput {
 }
 
 @InputType()
-export class createMyRecipeInput{
+export class createRecipeInput{
   @Field()
   name: string
   
@@ -18,8 +18,8 @@ export class createMyRecipeInput{
   ingredients: string
 
   @Field()
-  idUser: number
+  userId: number
 
   @Field()
-  idCategory: number
+  categoryId: number
 }

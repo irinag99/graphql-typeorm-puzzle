@@ -2,24 +2,28 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type Query {
-    recipes(name: String ingredients: String idCategory: Int ) recipe: Recipe
+    recipes(name: String ingredients: String categoryId: Int ) : [Recipe]
   }
   
   type Query {
       oneRecipe: Recipe
   }
 
-  type Mutation {
-    deleteRecipe: Recipe
-    createMyRecipe(input: createMyRecipeInput): Recipe
+  type Query {
+    myRecipes(userId: Int): [Recipe]
   }
 
-  input createMyRecipeInput{
+  type Mutation {
+    deleteRecipe: Recipe
+    createRecipe(input: createRecipeInput): Recipe
+  }
+
+  input createRecipeInput{
     name: String!
     description: String!
     ingredients: String!
-    idUser: Int!
-    idCategory: Int!
+    userId: Int!
+    categoryId: Int!
   }
 
   type Recipe {
@@ -27,8 +31,8 @@ export const typeDefs = gql`
     name: String!
     description: String!
     ingredients: String!
-    idUser: Int!
-    idCategory: Int!
+    userId: Int!
+    categoryId: Int!
     createdAt: Date!
     updatedAt: Date!
     deletedAt: Date!
