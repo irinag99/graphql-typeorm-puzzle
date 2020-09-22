@@ -35,7 +35,11 @@ const startServer = async () => {
 
   server.applyMiddleware({ app, path: '/graphql' });
 
-  const PORT = process.env.PORT || 4050;
+  const PORT = process.env.PORT || 4000;
+
+  app.get('/', function (_req, res) {
+    res.send('Project');
+  });
 
   app.listen(PORT, () => {
     console.log(`server listening on PORT: ${PORT}`)
