@@ -1,10 +1,10 @@
 {
    "type": "mysql",
-   "host": "localhost",
+   "host": "us-cdbr-east-02.cleardb.com",
    "port": 3306,
-   "username": "root",
-   "password": "",
-   "database": "testpuzzle",
+   "username": "b9aac3a6192501",
+   "password": "78073d6d",
+   "database": "heroku_2601277bf25063e",
    "synchronize": true,
    "logging": false,
    "entities": [
@@ -22,3 +22,5 @@
       "subscribersDir": "src/subscriber"
    }
 }
+
+:@/ */
