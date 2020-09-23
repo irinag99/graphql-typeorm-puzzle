@@ -16,8 +16,7 @@ const startServer = async () => {
   dotenv.config({ path: "../.env" });
   await createConnection();
   const schema = await buildSchema({
-    resolvers: [UserResolver, RecipeResolver, CategoryResolver],
-    
+    resolvers: [UserResolver, RecipeResolver, CategoryResolver]
   });
 
   const app = express();
