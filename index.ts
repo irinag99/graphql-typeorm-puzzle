@@ -38,7 +38,7 @@ const startServer = async () => {
   const PORT = process.env.PORT || 4000;
 
   app.get('/', function (_req, res) {
-    res.redirect('/graphql');
+    res.send('My Project');
   });
 
   app.listen(PORT, () => {
