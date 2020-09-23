@@ -41,6 +41,10 @@ const startServer = async () => {
     res.send('Project');
   });
 
+  app.use("*",(_req, res) =>{
+    res.send("<h1>Welcome to your simple server! Awesome right</h1>");
+});
+
   app.listen(PORT, () => {
     console.log(`server listening on PORT: ${PORT}`)
     console.log(`Graphql Endpoint: ${server.graphqlPath}`)
