@@ -38,12 +38,8 @@ const startServer = async () => {
   const PORT = process.env.PORT || 4000;
 
   app.get('/', function (_req, res) {
-    res.send('Project');
+    res.redirect('/graphql');
   });
-
-  app.use("*",(_req, res) =>{
-    res.send("<h1>Welcome to your simple server! Awesome right</h1>");
-});
 
   app.listen(PORT, () => {
     console.log(`server listening on PORT: ${PORT}`)
