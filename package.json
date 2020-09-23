@@ -2,7 +2,7 @@
    "name": "project",
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
-   "main": "./src/index.ts",
+   "main": "src/index.ts",
    "devDependencies": {
       "@types/node": "^8.0.29",
       "nodemon": "^2.0.4",
@@ -33,6 +33,6 @@
       "typeorm": "^0.2.25"
    },
    "scripts": {
-      "start": "ts-node ./src/index.ts"
+      "start": "ts-node src/index.ts"
    }
 }
