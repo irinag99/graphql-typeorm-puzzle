@@ -16,7 +16,8 @@ const startServer = async () => {
   dotenv.config({ path: "../.env" });
   await createConnection();
   const schema = await buildSchema({
-    resolvers: [UserResolver, RecipeResolver, CategoryResolver]
+    resolvers: [UserResolver, RecipeResolver, CategoryResolver],
+    
   });
 
   const app = express();
@@ -30,7 +31,8 @@ const startServer = async () => {
       return {
         email: req.email
       }
-    }
+    },
+    playground: true
   });
 
   server.applyMiddleware({ app, path: '/graphql' });
