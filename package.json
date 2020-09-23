@@ -33,8 +33,6 @@
       "typeorm": "^0.2.25"
    },
    "scripts": {
-      "start": "ts-node index.ts",
-      "build": "tsc",
-      "postinstall": "npm run build"
+      "start": "ts-node index.ts"
    }
 }
